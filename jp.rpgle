@@ -252,14 +252,31 @@
              return string;
            elseif ch = '\';
              /* TODO: Handle \uXXXX, \n, \t, \b, ... */
-             /* Add backslash */
-             new_ch = ch;
-             pString++;
-             len++;
              pSource++;
 
-             /* Add escaped character */
-             new_ch = ch;
+             if ch = '"';
+               new_ch = '"';
+             elseif ch = '\';
+               new_ch = '\';
+             elseif ch = 'b';
+               new_ch = JP_CHAR_BS;
+             elseif ch = 'f';
+               new_ch = JP_CHAR_FF;
+             elseif ch = 'n';
+               new_ch = JP_CHAR_NL;
+             elseif ch = 'r';
+               new_ch = JP_CHAR_CR;
+             elseif ch = 't';
+               new_ch = JP_CHAR_HT;
+             elseif ch = 'u'; /* Unicode escape sequence */
+               /* TODO */
+               parse_err(pSource, 'n');
+               return '';
+             else;
+               parse_err(pSource, 'u');
+               return '';
+             endif;
+
              pString++;
              len++;
              pSource++;
@@ -435,8 +452,84 @@
            string varchar(1024) value;
          end-pi;
 
-         /* TODO: This should reflect string in: jp_parse.rpgle:163 */
-         return '"' + string + '"';
+         dcl-s pString pointer;
+         dcl-s ch      char(1) based(pString);
+         dcl-s ret     varchar(1024);
+         dcl-s pRet    pointer;
+         dcl-s new_ch  char(1) based(pRet);
+         dcl-s len     int(10);
+
+         pString = %addr(string) + 2;
+         pRet = %addr(ret) + 2;
+
+         new_ch = '"';
+         pRet++;
+         len++;
+
+         dow ch <> '';
+           if ch = '"';
+             new_ch = '\';
+             pRet++;
+             len++;
+             new_ch = '"';
+             pRet++;
+             len++;
+           elseif ch = '\';
+             new_ch = '\';
+             pRet++;
+             len++;
+             new_ch = '\';
+             pRet++;
+             len++;
+           elseif ch = JP_CHAR_BS;
+             new_ch = '\';
+             pRet++;
+             len++;
+             new_ch = 'b';
+             pRet++;
+             len++;
+           elseif ch = JP_CHAR_FF;
+             new_ch = '\';
+             pRet++;
+             len++;
+             new_ch = 'f';
+             pRet++;
+             len++;
+           elseif ch = JP_CHAR_NL;
+             new_ch = '\';
+             pRet++;
+             len++;
+             new_ch = 'n';
+             pRet++;
+             len++;
+           elseif ch = JP_CHAR_CR;
+             new_ch = '\';
+             pRet++;
+             len++;
+             new_ch = 'r';
+             pRet++;
+             len++;
+           elseif ch = JP_CHAR_HT;
+             new_ch = '\';
+             pRet++;
+             len++;
+             new_ch = 't';
+             pRet++;
+             len++;
+           else;
+             new_ch = ch;
+             pRet++;
+             len++;
+           endif;
+           pSource++;
+         enddo;
+
+         new_ch = '"';
+         len++;
+
+         %len(ret) = len;
+
+         return ret;
        end-proc;
 
        dcl-proc stringify;

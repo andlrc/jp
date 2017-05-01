@@ -6,8 +6,16 @@
          JP_TYPE_LITERAL int(4);
        end-ds;
 
-       /* White spaces, " \t\r\n" */
-       dcl-c JP_WHITE const(' ' + x'05' + x'0D' + x'15');
+       dcl-c JP_CHAR_SP const(x'40');
+       dcl-c JP_CHAR_BS const(x'16');
+       dcl-c JP_CHAR_FF const(x'0C');
+       dcl-c JP_CHAR_NL const(x'15');
+       dcl-c JP_CHAR_CR const(x'0D');
+       dcl-c JP_CHAR_HT const(x'05');
+
+       /* White spaces */
+       dcl-c JP_WHITE const(JP_CHAR_SP + JP_CHAR_HT
+                          + JP_CHAR_CR + JP_CHAR_NL);
 
        /* Types */
        dcl-ds jp_node_t template qualified;
