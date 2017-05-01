@@ -6,6 +6,9 @@
          JP_TYPE_LITERAL int(4);
        end-ds;
 
+       /* White spaces, " \t\r\n" */
+       dcl-c JP_WHITE const(' ' + x'05' + x'0D' + x'15');
+
        /* Types */
        dcl-ds jp_node_t template qualified;
          type        int(10);

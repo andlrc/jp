@@ -91,11 +91,7 @@
 
          dcl-s ch based(pSource);
 
-         dow ch <> ''
-         and ch <> ' '
-         and ch <> CHAR_TAB
-         and ch <> CHAR_NL
-         and ch <> CHAR_CR;
+         dow %check(ch, JP_WHITE) <> 0;
            pSource++;
          enddo;
        end-proc;
