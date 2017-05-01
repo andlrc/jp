@@ -1,0 +1,68 @@
+       /* Enumerators */
+       dcl-ds jp_type_e;
+         JP_TYPE_OBJECT  int(1);
+         JP_TYPE_ARRAY   int(2);
+         JP_TYPE_STRING  int(3);
+         JP_TYPE_LITERAL int(4);
+       end-ds;
+
+       /* Types */
+       dcl-ds jp_node_t template qualified;
+         type        int(10);
+         name        varchar(1024);
+         value       varchar(1024); /* Primitive value */
+         parent      pointer;
+         firstChild  pointer;
+         lastChild   pointer;
+         nextSibling pointer;
+       end-ds;
+
+       /* jp_new.rpgle */
+       dcl-pr jp_newObject pointer;
+       end-pr;
+
+       dcl-pr jp_newArray pointer;
+       end-pr;
+
+       dcl-pr jp_newString pointer;
+         str varchar(1024) value;
+       end-pr;
+
+       dcl-pr jp_newLiteral pointer;
+         str varchar(1024) value;
+       end-pr;
+
+       /* jp_parse.rpgle */
+       dcl-pr jp_parse pointer;
+         source pointer option(*string) value;
+       end-pr;
+
+       /* jp_stringify.rpgle */
+       dcl-pr jp_stringify varchar(32000);
+         pNode pointer;
+       end-pr;
+
+       /* jp_util.rpgle */
+       dcl-pr jp_locate pointer;
+         pNode pointer value;
+         key   varchar(1024) value;
+       end-pr;
+
+       dcl-pr jp_moveInto int(10);
+         pNode  pointer value;
+         key    varchar(1024) value;
+         pChild pointer value;
+       end-pr;
+
+       dcl-pr jp_arrayPush int(10);
+         pNode  pointer value;
+         pChild pointer value;
+       end-pr;
+
+       dcl-pr jp_detach export;
+         pNode pointer value;
+       end-pr;
+
+       dcl-pr jp_free;
+         pNode pointer value;
+       end-pr;
