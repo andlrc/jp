@@ -1,10 +1,8 @@
        /* Enumerators */
-       dcl-ds jp_type_e;
-         JP_TYPE_OBJECT  int(1);
-         JP_TYPE_ARRAY   int(2);
-         JP_TYPE_STRING  int(3);
-         JP_TYPE_LITERAL int(4);
-       end-ds;
+       dcl-c JP_TYPE_OBJECT  const(1);
+       dcl-c JP_TYPE_ARRAY   const(2);
+       dcl-c JP_TYPE_STRING  const(3);
+       dcl-c JP_TYPE_LITERAL const(4);
 
        dcl-c JP_CHAR_SP const(x'40');
        dcl-c JP_CHAR_BS const(x'16');

@@ -791,7 +791,6 @@
          endif;
 
          %dealloc(pNode);
-
        end-proc;
 
        dcl-proc jp_free export;
@@ -801,5 +800,4 @@
 
          jp_detach(pNode);
          jp_free_(pNode);
-
        end-proc;
